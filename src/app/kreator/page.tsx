@@ -75,7 +75,7 @@ export default function KreatorPage() {
   }
 
   return (
-    <div className="mx-auto max-w-4xl p-6">
+    <div className="mx-auto max-w-7xl px-4 sm:px-6 py-6 sm:py-8">
       <h1 className="text-3xl font-bold tracking-tight">Kreator produktu</h1>
       <p className="text-sm text-gray-500 mt-1">
         Skonfiguruj produkt krok po kroku i zobacz podsumowanie.
@@ -91,7 +91,7 @@ export default function KreatorPage() {
                 Wybierz rozmiar, a następnie dotknij produkt i rozpocznij konfigurację.
               </h2>
             </div>
-            <div className="mt-8 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4 xl:grid-cols-4">
+            <div className="mt-6 sm:mt-8 grid grid-cols-1 gap-4 sm:gap-6 sm:grid-cols-2 lg:grid-cols-4 xl:grid-cols-4">
               {models.map((m) => {
                 const active = model === m.id;
                 return (
@@ -124,13 +124,13 @@ export default function KreatorPage() {
                           ))}
                         </div>
                       )}
-                      <div className="relative aspect-[3/4] overflow-hidden">
+                      <div className="relative aspect-[3/4] overflow-hidden min-h-[220px] sm:min-h-0">
                         <Image
                           src={m.image}
                           alt={m.name}
                           fill
                           sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
-                          className="object-contain p-6 drop-shadow-md"
+                          className="object-contain p-5 sm:p-6 drop-shadow-md"
                           onError={(e) => {
                             // fallback: if local file missing, show placeholder
                             const target = e.target as HTMLImageElement;
@@ -142,9 +142,9 @@ export default function KreatorPage() {
                       </div>
                     </div>
                     <div className="px-4 pt-2 pb-4">
-                      <div className="text-[#c1174f] text-xs font-medium">{m.dimensions}</div>
-                      <div className="mt-1 font-semibold leading-snug">{m.name}</div>
-                      <div className="text-sm text-gray-600">od {m.priceFrom} zł</div>
+                      <div className="text-[#c1174f] text-xs sm:text-xs font-medium">{m.dimensions}</div>
+                      <div className="mt-1 font-semibold leading-snug text-base sm:text-base">{m.name}</div>
+                      <div className="text-sm sm:text-sm text-gray-600">od {m.priceFrom} zł</div>
                       {active && (
                         <div className="mt-3">
                           <button
@@ -152,7 +152,7 @@ export default function KreatorPage() {
                               e.stopPropagation();
                               setStep("color");
                             }}
-                            className="w-full h-10 rounded-full bg-[#c1174f] text-white text-sm font-medium hover:brightness-95 transition"
+                            className="w-full h-11 sm:h-10 rounded-full bg-[#c1174f] text-white text-sm sm:text-sm font-medium hover:brightness-95 transition"
                           >
                             Konfiguruj
                           </button>
@@ -167,7 +167,7 @@ export default function KreatorPage() {
         )}
 
         {step === "color" && (
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-4 sm:gap-6">
             {/* Left side: back link, sections, preview */}
             <div className="lg:col-span-7 bg-[#eeedf0] rounded-2xl p-4 sm:p-6">
               <div className="flex items-center justify-between text-sm text-gray-600">
@@ -179,9 +179,9 @@ export default function KreatorPage() {
                 </button>
                 <button className="hover:underline">Zmień rozmiar</button>
               </div>
-              <div className="mt-4 grid grid-cols-[auto_1fr] gap-6">
+              <div className="mt-4 grid grid-cols-1 sm:grid-cols-[auto_1fr] gap-4 sm:gap-6">
                 {/* Sections menu */}
-                <div className="flex flex-col gap-3">
+                <div className="flex sm:flex-col gap-3 overflow-x-auto sm:overflow-visible pb-2 sm:pb-0 -mx-2 sm:mx-0 px-2 sm:px-0">
                   {[
                     { key: "extra", label: "Opcje dodatkowe" },
                     { key: "top", label: "Wierzch", active: true },
@@ -190,14 +190,14 @@ export default function KreatorPage() {
                   ].map((s) => (
                     <button
                       key={s.key}
-                      className={`inline-flex items-center rounded-full px-4 h-9 border text-sm ${
+                      className={`inline-flex shrink-0 items-center rounded-full px-5 h-10 sm:h-9 border text-sm ${
                         s.active
                           ? "border-[#c1174f] text-[#c1174f]"
                           : "border-gray-300 hover:bg-white/40"
                       }`}
                     >
                       <span
-                        className={`mr-2 inline-block h-2.5 w-2.5 rounded-full border ${
+                        className={`mr-2 inline-block h-3 w-3 sm:h-2.5 sm:w-2.5 rounded-full border ${
                           s.active ? "bg-[#c1174f] border-[#c1174f]" : "border-gray-400"
                         }`}
                       />
@@ -207,13 +207,13 @@ export default function KreatorPage() {
                 </div>
                 {/* Preview */}
                 <div className="relative rounded-xl bg-[#eeedf0] flex items-center justify-center">
-                  <div className="relative aspect-[3/2] w-full max-w-[560px]">
+                  <div className="relative aspect-[3/2] w-full max-w-[560px] min-h-[220px] sm:min-h-0">
                     <Image
                       src={"/models/podkowka.jpg"}
                       alt="Podgląd produktu"
                       fill
-                      sizes="(max-width: 1024px) 100vw, 560px"
-                      className="object-contain p-6 drop-shadow-md"
+                      sizes="(max-width: 640px) 100vw, (max-width: 1024px) 100vw, 560px"
+                      className="object-contain p-5 sm:p-6 drop-shadow-md"
                     />
                   </div>
                 </div>
@@ -223,7 +223,7 @@ export default function KreatorPage() {
             <div className="lg:col-span-5">
               <div className="flex items-center justify-between gap-3">
                 <div>
-                  <h3 className="text-lg sm:text-xl font-semibold leading-tight">
+                  <h3 className="text-base sm:text-xl font-semibold leading-tight">
                     {models.find((m) => m.id === model)?.name} {" "}
                   </h3>
                   <div className="text-sm text-gray-600">
@@ -233,15 +233,15 @@ export default function KreatorPage() {
                 <button
                   disabled={!color}
                   onClick={() => setStep("size")}
-                  className="rounded-full bg-[#c1174f] text-white h-10 px-6 text-sm font-medium disabled:opacity-50"
+                  className="rounded-full bg-[#c1174f] text-white h-11 sm:h-10 px-6 text-sm font-medium disabled:opacity-50"
                 >
                   Gotowe
                 </button>
               </div>
               <div className="mt-6 flex items-center justify-between">
-                <button className="p-2 hover:bg-gray-100 rounded-full" aria-label="prev">‹</button>
-                <div className="text-sm font-medium">Wierzch</div>
-                <button className="p-2 hover:bg-gray-100 rounded-full" aria-label="next">›</button>
+                <button className="p-3 sm:p-2 hover:bg-gray-100 rounded-full" aria-label="prev">‹</button>
+                <div className="text-sm sm:text-base font-medium">Wierzch</div>
+                <button className="p-3 sm:p-2 hover:bg-gray-100 rounded-full" aria-label="next">›</button>
               </div>
               <div className="mt-4 grid grid-cols-1 sm:grid-cols-3 gap-4">
                 {[
@@ -249,9 +249,9 @@ export default function KreatorPage() {
                   { key: "klapa", label: "Klapa" },
                   { key: "zamek", label: "Zamek" },
                 ].map((part) => (
-                  <div key={part.key} className="rounded-2xl border border-gray-200 p-3">
+                  <div key={part.key} className="rounded-2xl border border-gray-200 p-3 sm:p-3">
                     <div className="aspect-[4/3] bg-[#f6f6f6] rounded-lg" />
-                    <div className="mt-2 flex items-center justify-between text-sm">
+                    <div className="mt-2 flex items-center justify-between text-sm sm:text-sm">
                       <span className="font-medium">{part.label}</span>
                       <span className="text-[#c1174f]">✓</span>
                     </div>
@@ -268,13 +268,13 @@ export default function KreatorPage() {
                       <button
                         key={c.id}
                         onClick={() => setColor(c.id)}
-                        className={`rounded-xl border p-2 flex items-center justify-center ${
+                        className={`rounded-xl border p-2 sm:p-2 flex items-center justify-center ${
                           active ? "border-[#c1174f] ring-2 ring-[#c1174f]" : "border-gray-200"
                         }`}
                         aria-pressed={active}
                       >
                         <span
-                          className="block h-7 w-7 rounded-full border"
+                          className="block h-9 w-9 sm:h-7 sm:w-7 rounded-full border"
                           style={{ backgroundColor: c.hex, borderColor: c.id === "white" ? "#e5e7eb" : "transparent" }}
                         />
                       </button>
