@@ -360,11 +360,12 @@ export default function KreatorPage() {
         )}
       </div>
 
-      <div className="mt-4 flex items-center justify-between">
+      {/* Desktop/tablet action bar */}
+      <div className="mt-6 hidden sm:flex items-center justify-between">
         <button
           onClick={goBack}
           disabled={currentStepIndex <= 0}
-          className="px-4 py-2 rounded-md border disabled:opacity-50"
+          className="px-5 h-11 rounded-full border disabled:opacity-50"
         >
           Wstecz
         </button>
@@ -372,18 +373,48 @@ export default function KreatorPage() {
           <button
             onClick={goNext}
             disabled={!canNext}
-            className="px-4 py-2 rounded-md bg-black text-white disabled:opacity-50"
+            className="px-6 h-11 rounded-full bg-black text-white disabled:opacity-50"
           >
             Dalej
           </button>
         ) : (
           <button
             onClick={() => setStep("model")}
-            className="px-4 py-2 rounded-md border"
+            className="px-5 h-11 rounded-full border"
           >
             Edytuj konfigurację
           </button>
         )}
+      </div>
+
+      {/* Mobile sticky action bar */}
+      <div className="sm:hidden h-16" />
+      <div className="sm:hidden fixed inset-x-0 bottom-0 z-40 border-t bg-white/95 backdrop-blur supports-[backdrop-filter]:bg-white/80 pb-[env(safe-area-inset-bottom)]">
+        <div className="mx-auto max-w-7xl px-4 py-3 flex items-center justify-between gap-3">
+          <button
+            onClick={goBack}
+            disabled={currentStepIndex <= 0}
+            className="flex-1 h-12 rounded-full border text-base disabled:opacity-50"
+          >
+            Wstecz
+          </button>
+          {step !== "summary" ? (
+            <button
+              onClick={goNext}
+              disabled={!canNext}
+              className="flex-1 h-12 rounded-full bg-black text-white text-base disabled:opacity-50"
+            >
+              Dalej
+            </button>
+          ) : (
+            <button
+              onClick={() => setStep("model")}
+              className="flex-1 h-12 rounded-full border text-base"
+            >
+              Edytuj
+            </button>
+          )}
+        </div>
       </div>
     </div>
   );
