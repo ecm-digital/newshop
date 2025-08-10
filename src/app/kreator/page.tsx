@@ -74,6 +74,23 @@ export default function KreatorPage() {
     setStep(stepsOrder[currentStepIndex - 1]);
   }
 
+  function isStepEnabled(target: Step) {
+    switch (target) {
+      case "model":
+        return true;
+      case "color":
+        return !!model;
+      case "size":
+        return !!color;
+      case "addons":
+        return !!size;
+      case "summary":
+        return !!model && !!color; // luźniejsza walidacja podglądu
+      default:
+        return true;
+    }
+  }
+
   return (
     <div className="mx-auto max-w-7xl px-4 sm:px-6 py-6 sm:py-8">
       <h1 className="text-3xl font-bold tracking-tight">Kreator produktu</h1>
@@ -81,7 +98,19 @@ export default function KreatorPage() {
         Skonfiguruj produkt krok po kroku i zobacz podsumowanie.
       </p>
 
-      <Progress step={step} />
+      {/* Mobile sticky step nav */}
+      <MobileStepNav
+        step={step}
+        onStepClick={(s) => {
+          if (isStepEnabled(s)) setStep(s);
+        }}
+        isEnabled={isStepEnabled}
+      />
+
+      {/* Desktop/tablet progress */}
+      <div className="hidden sm:block">
+        <Progress step={step} onStepClick={(s) => isStepEnabled(s) && setStep(s)} isEnabled={isStepEnabled} />
+      </div>
 
       <div className="mt-6 rounded-lg border p-4">
         {step === "model" && (
@@ -422,26 +451,88 @@ export default function KreatorPage() {
 
 const stepsOrder: Step[] = ["model", "color", "size", "addons", "summary"];
 
-function Progress({ step }: { step: Step }) {
+function Progress({ step, onStepClick, isEnabled }: { step: Step; onStepClick?: (s: Step) => void; isEnabled?: (s: Step) => boolean }) {
   const index = stepsOrder.indexOf(step);
   return (
-    <ol className="mt-6 flex items-center gap-2 text-xs">
-      {stepsOrder.map((s, i) => (
-        <li key={s} className="flex items-center gap-2">
-          <span
-            className={`inline-flex h-6 w-6 items-center justify-center rounded-full border text-[11px] ${
-              i <= index ? "bg-black text-white border-black" : "border-gray-300 text-gray-600"
+    <ol className="mt-4 flex items-center gap-2 text-xs">
+      {stepsOrder.map((s, i) => {
+        const active = s === step;
+        const past = i < index;
+        const enabled = isEnabled ? isEnabled(s) : true;
+        const btn = (
+          <button
+            type="button"
+            disabled={!enabled}
+            onClick={() => onStepClick && onStepClick(s)}
+            className={`inline-flex items-center gap-2 rounded-full border px-3.5 h-9 transition ${
+              active
+                ? "bg-black text-white border-black"
+                : past
+                ? "border-black text-black"
+                : "border-gray-300 text-gray-600 disabled:opacity-50"
             }`}
           >
-            {i + 1}
-          </span>
-          <span className={`${i <= index ? "font-medium" : "text-gray-500"}`}>
-            {labelForStep(s)}
-          </span>
-          {i < stepsOrder.length - 1 && <span className="mx-2 text-gray-400">→</span>}
-        </li>
-      ))}
+            <span className="inline-flex h-6 w-6 items-center justify-center rounded-full bg-white/10">
+              {i + 1}
+            </span>
+            <span className="hidden sm:inline">{labelForStep(s)}</span>
+            <span className="sm:hidden">{labelForStep(s)}</span>
+          </button>
+        );
+        return (
+          <li key={s} className="flex items-center gap-2">
+            {btn}
+            {i < stepsOrder.length - 1 && <span className="mx-1 text-gray-300">·</span>}
+          </li>
+        );
+      })}
     </ol>
+  );
+}
+
+function MobileStepNav({
+  step,
+  onStepClick,
+  isEnabled,
+}: {
+  step: Step;
+  onStepClick?: (s: Step) => void;
+  isEnabled?: (s: Step) => boolean;
+}) {
+  const index = stepsOrder.indexOf(step);
+  return (
+    <div className="sm:hidden sticky top-0 z-30 -mx-4 px-4 pt-[env(safe-area-inset-top)] bg-white/95 backdrop-blur supports-[backdrop-filter]:bg-white/80 border-b">
+      <div className="py-3 overflow-x-auto">
+        <ol className="flex items-center gap-2 text-xs min-w-max">
+          {stepsOrder.map((s, i) => {
+            const active = s === step;
+            const past = i < index;
+            const enabled = isEnabled ? isEnabled(s) : true;
+            return (
+              <li key={s} className="flex items-center gap-2">
+                <button
+                  type="button"
+                  disabled={!enabled}
+                  onClick={() => onStepClick && onStepClick(s)}
+                  className={`inline-flex items-center gap-2 rounded-full px-4 h-10 border transition whitespace-nowrap ${
+                    active
+                      ? "bg-black text-white border-black"
+                      : past
+                      ? "border-black text-black"
+                      : "border-gray-300 text-gray-700 disabled:opacity-50"
+                  }`}
+                >
+                  <span className="inline-flex h-6 w-6 items-center justify-center rounded-full bg-white/10 text-[11px]">
+                    {i + 1}
+                  </span>
+                  {labelForStep(s)}
+                </button>
+              </li>
+            );
+          })}
+        </ol>
+      </div>
+    </div>
   );
 }
 
