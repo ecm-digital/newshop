@@ -91,7 +91,7 @@ export default function KreatorPage() {
                 Wybierz rozmiar, a następnie dotknij produkt i rozpocznij konfigurację.
               </h2>
             </div>
-            <div className="mt-6 sm:mt-8 grid grid-cols-1 gap-4 sm:gap-6 sm:grid-cols-2 lg:grid-cols-4 xl:grid-cols-4">
+            <div className="mt-5 sm:mt-8 grid grid-cols-1 gap-5 sm:gap-6 sm:grid-cols-2 lg:grid-cols-4 xl:grid-cols-4">
               {models.map((m) => {
                 const active = model === m.id;
                 return (
@@ -117,14 +117,14 @@ export default function KreatorPage() {
                           {m.sizeBadges.map((b) => (
                             <span
                               key={b}
-                              className="inline-flex items-center rounded-full bg-[#f5e6eb] text-[#c1174f] px-2 py-0.5 text-xs font-medium shadow-sm"
+                              className="inline-flex items-center rounded-full bg-white/90 px-3 py-1.5 text-xs font-medium text-[#c1174f] ring-1 ring-inset ring-[#c1174f]/30 shadow-sm"
                             >
                               {b}
                             </span>
                           ))}
                         </div>
                       )}
-                      <div className="relative aspect-[3/4] overflow-hidden min-h-[220px] sm:min-h-0">
+                      <div className="relative aspect-[3/4] overflow-hidden min-h-[260px] sm:min-h-0">
                         <Image
                           src={m.image}
                           alt={m.name}
@@ -141,10 +141,10 @@ export default function KreatorPage() {
                         />
                       </div>
                     </div>
-                    <div className="px-4 pt-2 pb-4">
+                    <div className="px-4 pt-3 pb-4">
                       <div className="text-[#c1174f] text-xs sm:text-xs font-medium">{m.dimensions}</div>
-                      <div className="mt-1 font-semibold leading-snug text-base sm:text-base">{m.name}</div>
-                      <div className="text-sm sm:text-sm text-gray-600">od {m.priceFrom} zł</div>
+                      <div className="mt-1 font-semibold leading-snug text-[17px] sm:text-base">{m.name}</div>
+                      <div className="text-[15px] sm:text-sm text-gray-600">od {m.priceFrom} zł</div>
                       {active && (
                         <div className="mt-3">
                           <button
@@ -152,7 +152,7 @@ export default function KreatorPage() {
                               e.stopPropagation();
                               setStep("color");
                             }}
-                            className="w-full h-11 sm:h-10 rounded-full bg-[#c1174f] text-white text-sm sm:text-sm font-medium hover:brightness-95 transition"
+                            className="w-full h-12 sm:h-10 rounded-full bg-[#c1174f] text-white text-[15px] sm:text-sm font-medium hover:brightness-95 transition"
                           >
                             Konfiguruj
                           </button>
@@ -190,14 +190,14 @@ export default function KreatorPage() {
                   ].map((s) => (
                     <button
                       key={s.key}
-                      className={`inline-flex shrink-0 items-center rounded-full px-5 h-10 sm:h-9 border text-sm ${
+                      className={`inline-flex shrink-0 items-center rounded-full px-5 h-11 sm:h-9 border text-[15px] sm:text-sm ${
                         s.active
                           ? "border-[#c1174f] text-[#c1174f]"
                           : "border-gray-300 hover:bg-white/40"
                       }`}
                     >
                       <span
-                        className={`mr-2 inline-block h-3 w-3 sm:h-2.5 sm:w-2.5 rounded-full border ${
+                        className={`mr-2 inline-block h-3.5 w-3.5 sm:h-2.5 sm:w-2.5 rounded-full border ${
                           s.active ? "bg-[#c1174f] border-[#c1174f]" : "border-gray-400"
                         }`}
                       />
@@ -207,7 +207,7 @@ export default function KreatorPage() {
                 </div>
                 {/* Preview */}
                 <div className="relative rounded-xl bg-[#eeedf0] flex items-center justify-center">
-                  <div className="relative aspect-[3/2] w-full max-w-[560px] min-h-[220px] sm:min-h-0">
+                  <div className="relative aspect-[3/2] w-full max-w-[560px] min-h-[280px] sm:min-h-0">
                     <Image
                       src={"/models/podkowka.jpg"}
                       alt="Podgląd produktu"
@@ -239,9 +239,9 @@ export default function KreatorPage() {
                 </button>
               </div>
               <div className="mt-6 flex items-center justify-between">
-                <button className="p-3 sm:p-2 hover:bg-gray-100 rounded-full" aria-label="prev">‹</button>
-                <div className="text-sm sm:text-base font-medium">Wierzch</div>
-                <button className="p-3 sm:p-2 hover:bg-gray-100 rounded-full" aria-label="next">›</button>
+                <button className="p-3.5 sm:p-2 hover:bg-gray-100 rounded-full text-lg" aria-label="prev">‹</button>
+                <div className="text-base sm:text-base font-medium">Wierzch</div>
+                <button className="p-3.5 sm:p-2 hover:bg-gray-100 rounded-full text-lg" aria-label="next">›</button>
               </div>
               <div className="mt-4 grid grid-cols-1 sm:grid-cols-3 gap-4">
                 {[
@@ -261,7 +261,7 @@ export default function KreatorPage() {
               {/* Color swatches */}
               <div className="mt-6">
                 <div className="text-sm text-gray-600 mb-2">Kolory</div>
-                <div className="grid grid-cols-6 gap-3">
+                <div className="grid grid-cols-4 sm:grid-cols-6 gap-4">
                   {colors.map((c) => {
                     const active = color === c.id;
                     return (
@@ -274,7 +274,7 @@ export default function KreatorPage() {
                         aria-pressed={active}
                       >
                         <span
-                          className="block h-9 w-9 sm:h-7 sm:w-7 rounded-full border"
+                          className="block h-11 w-11 sm:h-8 sm:w-8 rounded-full border"
                           style={{ backgroundColor: c.hex, borderColor: c.id === "white" ? "#e5e7eb" : "transparent" }}
                         />
                       </button>
