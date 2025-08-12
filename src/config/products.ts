@@ -2,7 +2,6 @@ import { type ProductConfig, type ProductKey, type ExtraKey } from "@/types/conf
 
 // Allowed extras shortcuts
 const RACZKI: ExtraKey[] = ["raczki-czarna-skora", "raczki-brazowa-skora"];
-const PASEK: ExtraKey[] = ["pasek-czarna-skora", "pasek-brazowa-skora"];
 const KOSMETYCZKA_ROZMIARY: ExtraKey[] = [
   "kosmetyczka-rozmiar-S",
   "kosmetyczka-rozmiar-M",

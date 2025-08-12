@@ -1,7 +1,8 @@
 "use client";
-import React, { useMemo } from "react";
+import React from "react";
 import { useConfigurator } from "@/store/configurator";
 import { getProductConfig } from "@/config/products";
+import type { ThreadColor, EmbroideryPresetId } from "@/types/configurator";
 
 const FONT_LABELS: Record<string, string> = {
   "sans": "Sans-serif",
@@ -139,7 +140,7 @@ export function StepEmbroidery() {
               {THREAD_COLORS.map((c) => (
                 <button
                   key={c.id}
-                  onClick={() => setEmbroidery({ threadColor: c.id as any })}
+                  onClick={() => setEmbroidery({ threadColor: c.id as ThreadColor })}
                   className={`h-16 w-full rounded-2xl border-2 transition-all hover:scale-105 ${
                     embroidery.threadColor === c.id 
                       ? "ring-2 ring-black ring-offset-2" 
@@ -165,7 +166,7 @@ export function StepEmbroidery() {
             {["heart", "star", "smile", "alphabet-initial"].map((pid) => (
               <button
                 key={pid}
-                onClick={() => setEmbroidery({ presetId: pid as any })}
+                onClick={() => setEmbroidery({ presetId: pid as EmbroideryPresetId })}
                 className={`rounded-2xl border-2 p-8 text-center transition-all hover:shadow-xl ${
                   embroidery.presetId === pid 
                     ? "border-black bg-black/5 shadow-lg" 
