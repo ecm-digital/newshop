@@ -1,26 +1,49 @@
 @import "tailwindcss";
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
-
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+  /* SHE Shop Color Palette */
+  --she-primary: #8B7355;      /* Warm brown accent */
+  --she-secondary: #D4C4A8;    /* Light beige */
+  --she-dark: #1A1A1A;        /* Deep black */
+  --she-light: #F8F6F3;       /* Warm off-white */
+  --she-accent: #C4A484;      /* Medium brown */
+  --she-success: #4A6741;     /* Muted green */
+  --she-error: #B91C1C;       /* Muted red */
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', sans-serif;
+  background-color: var(--she-light);
+  color: var(--she-dark);
+}
+
+/* Custom utility classes for SHE design */
+@layer utilities {
+  .she-gradient {
+    background: linear-gradient(135deg, var(--she-light) 0%, #FFFFFF 100%);
+  }
+  
+  .she-shadow {
+    box-shadow: 0 4px 20px rgba(139, 115, 85, 0.08);
+  }
+  
+  .she-shadow-lg {
+    box-shadow: 0 8px 30px rgba(139, 115, 85, 0.12);
+  }
+  
+  .she-border {
+    border: 1px solid rgba(139, 115, 85, 0.15);
+  }
+  
+  .she-text-primary {
+    color: var(--she-primary);
+  }
+  
+  .she-bg-primary {
+    background-color: var(--she-primary);
+  }
+  
+  .she-bg-secondary {
+    background-color: var(--she-secondary);
+  }
 }
