@@ -2,6 +2,7 @@
 // Central place for step names and allowed values
 
 export type StepKey =
+  | "templates"
   | "product"
   | "material"
   | "lining"
@@ -14,6 +15,7 @@ export type ProductKey =
   | "plecak-mama"
   | "plecak-dziecko"
   | "worek"
+  | "nerka"
   | "torbacz-duza"
   | "torbacz-mala"
   | "kosmetyczka"
@@ -22,9 +24,10 @@ export type ProductKey =
 
 export type CosmeticBagSize = "S" | "M" | "L";
 
+// Updated types according to PRD
 export type MaterialType = "ekoskora" | "sztruks" | "len-a" | "len-b" | "len-c";
-export type LiningColor = "white" | "black";
-export type HardwareColor = "silver" | "gold";
+export type LiningColor = "white" | "black" | "czerwona" | "niebieska" | "szara" | "zielona" | "rozowa";
+export type HardwareColor = "silver" | "gold" | "zloty" | "srebrny" | "czarny" | "brazowy";
 
 export type EmbroideryMode = "custom" | "preset";
 export type EmbroideryFont = "sans" | "serif" | "script"; // placeholder fonts for MVP
@@ -89,3 +92,37 @@ export type ConfigState = {
   // step control
   step: StepKey;
 };
+
+export interface ProjectTemplate {
+  id: string;
+  name: string;
+  description: string;
+  productKey: ProductKey;
+  materialKey: MaterialType;
+  liningKey: LiningColor;
+  hardwareKey: HardwareColor;
+  embroideryText?: string;
+  embroideryPattern?: string;
+  extras: ExtraKey[];
+  thumbnail: string;
+  category: 'popular' | 'trending' | 'classic' | 'custom';
+}
+
+export interface ProjectHistory {
+  id: string;
+  name: string;
+  timestamp: number;
+  configuration: ConfigState;
+  thumbnail: string;
+}
+
+export interface PriceCalculation {
+  basePrice: number;
+  materialCost: number;
+  liningCost: number;
+  hardwareCost: number;
+  embroideryCost: number;
+  extrasCost: number;
+  totalPrice: number;
+  currency: 'PLN' | 'EUR' | 'USD';
+}

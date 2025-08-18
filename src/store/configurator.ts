@@ -8,7 +8,8 @@ import type {
   EmbroideryState,
   ExtraKey,
 } from "@/types/configurator";
-import { STEPS_ORDER } from "@/config/steps";
+import { STEPS_ORDER, isStepEnabled } from "@/config/steps";
+import { getProductConfig } from "@/config/products";
 
 export type Step = "model" | "color" | "size" | "addons" | "summary";
 
@@ -44,6 +45,8 @@ export type Config = {
   embroidery: EmbroideryState;
   extras: ExtraKey[];
   step: StepKey;
+  // UI-only: which tab is active in configuration step
+  configTab?: 'lining' | 'material' | 'hardware' | 'embroidery';
 };
 
 export type ConfiguratorStore = Config & {
@@ -63,6 +66,14 @@ export type ConfiguratorStore = Config & {
   setEmbroidery: (e: Partial<EmbroideryState>) => void;
   toggleExtra: (e: ExtraKey) => void;
   setStep: (s: StepKey) => void;
+  setConfigTab: (t: 'lining' | 'material' | 'hardware' | 'embroidery') => void;
+  // Template actions
+  setSelectedProduct: (p: ProductKey) => void;
+  setSelectedMaterial: (m: MaterialType) => void;
+  setSelectedLining: (l: LiningColor) => void;
+  setSelectedHardware: (h: HardwareColor) => void;
+  setEmbroideryText: (text: string) => void;
+  setSelectedExtras: (extras: ExtraKey[]) => void;
   // Navigation helpers
   goToNextStep: () => void;
   goToPreviousStep: () => void;
@@ -92,20 +103,22 @@ const initialState: Config = {
   },
   extras: [],
   step: "product",
+  configTab: 'lining',
 };
 
 export const useConfigurator = create<ConfiguratorStore>()((set, get) => ({
   ...initialState,
-  setModel: (id) => set({ model: id }),
-  setColor: (id) => set({ color: id }),
-  setSize: (id) => set({ size: id }),
+  setModel: (id) => set((state) => ({ model: id, extras: state.extras || [] })),
+  setColor: (id) => set((state) => ({ color: id, extras: state.extras || [] })),
+  setSize: (id) => set((state) => ({ size: id, extras: state.extras || [] })),
   toggleAddon: (id) =>
     set((state) => ({
       addons: state.addons.includes(id)
         ? state.addons.filter((a) => a !== id)
         : [...state.addons, id],
+      extras: state.extras || []
     })),
-  reset: () => set(initialState),
+  reset: () => set((state) => ({ ...initialState, extras: state.extras || [] })),
   isComplete: () => {
     const s = get();
     return Boolean(s.model && s.color && s.size);
@@ -119,49 +132,87 @@ export const useConfigurator = create<ConfiguratorStore>()((set, get) => ({
       lining: null,
       hardware: null,
       embroidery: { ...state.embroidery, text: "", presetId: null },
-      extras: [],
-      step: "material",
+      extras: state.extras || [],
+      // stay on current step; navigation happens via Next button
+      step: state.step,
     })),
-  setMaterialNew: (m) => set({ material: m }),
-  setLining: (l) => set({ lining: l }),
-  setHardware: (h) => set({ hardware: h }),
-  setEmbroidery: (e) => set((state) => ({ embroidery: { ...state.embroidery, ...e } })),
+  setMaterialNew: (m) => set((state) => ({ material: m, extras: state.extras || [] })),
+  setLining: (l) => set((state) => ({ lining: l, extras: state.extras || [] })),
+  setHardware: (h) => set((state) => ({ hardware: h, extras: state.extras || [] })),
+  setEmbroidery: (e) => set((state) => ({ 
+    embroidery: { ...state.embroidery, ...e },
+    extras: state.extras || []
+  })),
   toggleExtra: (e) =>
     set((state) => ({
-      extras: state.extras.includes(e)
-        ? state.extras.filter((x) => x !== e)
-        : [...state.extras, e],
+      extras: (state.extras || []).includes(e)
+        ? (state.extras || []).filter((x) => x !== e)
+        : [...(state.extras || []), e],
     })),
-  setStep: (s) => set({ step: s }),
+  setStep: (s) => set((state) => ({ step: s, extras: state.extras || [] })),
+  // Template actions
+  setSelectedProduct: (p) => set((state) => ({ selectedProduct: p, extras: state.extras || [] })),
+  setSelectedMaterial: (m) => set((state) => ({ material: m, extras: state.extras || [] })),
+  setSelectedLining: (l) => set((state) => ({ lining: l, extras: state.extras || [] })),
+  setSelectedHardware: (h) => set((state) => ({ hardware: h, extras: state.extras || [] })),
+  setEmbroideryText: (text) => set((state) => ({ 
+    embroidery: { ...state.embroidery, text },
+    extras: state.extras || []
+  })),
+  setSelectedExtras: (extras) => set((state) => ({ 
+    extras: Array.isArray(extras) ? extras : (state.extras || [])
+  })),
+  setConfigTab: (t) => set(() => ({ configTab: t })),
   // Navigation helpers
   goToNextStep: () => {
     const state = get();
     const currentIndex = STEPS_ORDER.indexOf(state.step);
-    if (currentIndex < STEPS_ORDER.length - 1) {
-      set({ step: STEPS_ORDER[currentIndex + 1] });
+    
+    // Find next enabled step
+    for (let i = currentIndex + 1; i < STEPS_ORDER.length; i++) {
+      const nextStep = STEPS_ORDER[i];
+      if (isStepEnabled(nextStep, state.selectedProduct)) {
+        set({ step: nextStep, extras: state.extras || [] });
+        return;
+      }
     }
   },
   goToPreviousStep: () => {
     const state = get();
     const currentIndex = STEPS_ORDER.indexOf(state.step);
-    if (currentIndex > 0) {
-      set({ step: STEPS_ORDER[currentIndex - 1] });
+    
+    // Find previous enabled step
+    for (let i = currentIndex - 1; i >= 0; i--) {
+      const prevStep = STEPS_ORDER[i];
+      if (isStepEnabled(prevStep, state.selectedProduct)) {
+        set({ step: prevStep, extras: state.extras || [] });
+        return;
+      }
     }
   },
-  goToStep: (s) => set({ step: s }),
+  goToStep: (s) => set((state) => ({ step: s, extras: state.extras || [] })),
   get canGoToNextStep() {
     const state = get();
     const currentIndex = STEPS_ORDER.indexOf(state.step);
-    if (currentIndex >= STEPS_ORDER.length - 1) return false;
     
-    // Check if current step is valid
+    // Check if there's any enabled step after current
+    const hasNextEnabledStep = STEPS_ORDER.slice(currentIndex + 1).some(step => 
+      isStepEnabled(step, state.selectedProduct)
+    );
+    if (!hasNextEnabledStep) return false;
+    
+    // Check if current step is valid (only for enabled steps)
+    if (!isStepEnabled(state.step, state.selectedProduct)) return true; // Skip disabled steps
+    
     switch (state.step) {
+      case "templates":
+        return true; // Always can proceed from templates
       case "product":
         return state.selectedProduct !== null;
       case "material":
         return state.material !== null;
       case "lining":
-        return state.lining !== null;
+        return state.material !== null;
       case "hardware":
         return state.hardware !== null;
       case "embroidery":
@@ -176,13 +227,21 @@ export const useConfigurator = create<ConfiguratorStore>()((set, get) => ({
   },
   isStepValid: (s: StepKey) => {
     const state = get();
+    
+    // If step is not enabled for current product, consider it valid (skipped)
+    if (!isStepEnabled(s, state.selectedProduct)) {
+      return true;
+    }
+    
     switch (s) {
+      case "templates":
+        return true; // Always valid
       case "product":
         return state.selectedProduct !== null;
       case "material":
         return state.material !== null;
       case "lining":
-        return state.lining !== null;
+        return state.material !== null;
       case "hardware":
         return state.hardware !== null;
       case "embroidery":

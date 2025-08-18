@@ -3,11 +3,7 @@ import { getProductConfig } from "@/config/products";
 
 export const STEPS_ORDER: StepKey[] = [
   "product",
-  "material",
   "lining",
-  "hardware",
-  "embroidery",
-  "extras",
   "summary",
 ];
 
@@ -20,39 +16,11 @@ export const STEPS: StepDefinition[] = [
     isEnabledFor: () => true,
   },
   {
-    key: "material",
-    label: "Materiał",
-    title: "Wybór materiału",
-    description: "Wybierz materiał zewnętrzny produktu",
-    isEnabledFor: (product) => Boolean(product?.enabledSteps.material),
-  },
-  {
     key: "lining",
-    label: "Podszewka",
-    title: "Wybór podszewki",
-    description: "Wybierz kolor i materiał podszewki",
+    label: "Konfiguracja",
+    title: "Konfiguracja materiału, podszewki, okuć i haftu",
+    description: "Dobierz podszewkę, materiał, (dla wybranych produktów) okucia oraz ustaw haft",
     isEnabledFor: (product) => Boolean(product?.enabledSteps.lining),
-  },
-  {
-    key: "hardware",
-    label: "Okucia/Zamek",
-    title: "Wybór okuć",
-    description: "Wybierz kolor okuć i zamka",
-    isEnabledFor: (product) => Boolean(product?.enabledSteps.hardware),
-  },
-  {
-    key: "embroidery",
-    label: "Haft",
-    title: "Konfiguracja haftu",
-    description: "Dodaj personalizowany haft lub wybierz gotowy wzór",
-    isEnabledFor: (product) => Boolean(product?.enabledSteps.embroidery),
-  },
-  {
-    key: "extras",
-    label: "Opcje dodatkowe",
-    title: "Opcje dodatkowe",
-    description: "Wybierz dodatkowe akcesoria i usługi",
-    isEnabledFor: (product) => Boolean(product?.enabledSteps.extras),
   },
   {
     key: "summary",

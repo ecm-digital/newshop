@@ -43,7 +43,50 @@ export function StepExtras() {
       <div className="text-center py-16 text-gray-500">
         <div className="text-6xl mb-6">🎯</div>
         <div className="text-2xl font-bold mb-3">Brak opcji dodatkowych</div>
-        <div className="text-lg">Ten produkt nie ma dostępnych opcji dodatkowych</div>
+        <div className="text-lg mb-4">Ten produkt nie ma dostępnych opcji dodatkowych</div>
+        
+        {/* Product-specific explanation */}
+        <div className="max-w-md mx-auto bg-gray-50 rounded-xl p-4 text-sm">
+          {selectedProduct === 'worek' && (
+            <div>
+              <div className="font-medium text-gray-700 mb-2">💡 Dlaczego worek nie ma dodatków?</div>
+              <div className="text-gray-600">
+                Worek jest prostym, praktycznym produktem bez okuć i uchwytów. 
+                Możesz go spersonalizować materiałem, podszewką i haftem.
+              </div>
+            </div>
+          )}
+          
+          {selectedProduct === 'etui-laptop' && (
+            <div>
+              <div className="font-medium text-gray-700 mb-2">💡 Dlaczego etui nie ma dodatków?</div>
+              <div className="text-gray-600">
+                Etui na laptopa to kompaktowy produkt ochronny. 
+                Możesz go spersonalizować materiałem, podszewką, okuciami i haftem.
+              </div>
+            </div>
+          )}
+          
+          {selectedProduct && !['worek', 'etui-laptop'].includes(selectedProduct) && (
+            <div>
+              <div className="font-medium text-gray-700 mb-2">💡 Informacja</div>
+              <div className="text-gray-600">
+                Ten produkt nie ma skonfigurowanych opcji dodatkowych w systemie.
+              </div>
+            </div>
+          )}
+        </div>
+        
+        {/* Available customization options */}
+        <div className="mt-6 max-w-md mx-auto">
+          <div className="text-sm font-medium text-gray-700 mb-2">✅ Dostępne opcje personalizacji:</div>
+          <div className="space-y-1 text-xs text-gray-600">
+            {product?.enabledSteps.material && <div>• Materiał</div>}
+            {product?.enabledSteps.lining && <div>• Podszewka</div>}
+            {product?.enabledSteps.hardware && <div>• Okucia</div>}
+            {product?.enabledSteps.embroidery && <div>• Haft</div>}
+          </div>
+        </div>
       </div>
     );
   }
@@ -52,9 +95,45 @@ export function StepExtras() {
     <div className="space-y-8">
       <div className="text-center">
         <h3 className="text-2xl font-bold text-gray-900 mb-3">Opcje dodatkowe</h3>
-        <p className="text-base text-gray-600 max-w-2xl mx-auto">
+        <p className="text-base text-gray-600 max-w-2xl mx-auto mb-4">
           Wybierz dodatkowe elementy, które wzbogacą funkcjonalność Twojego produktu
         </p>
+        
+        {/* Product-specific extras info */}
+        <div className="max-w-md mx-auto bg-she-light rounded-xl p-4 mb-6">
+          <div className="text-sm text-she-dark">
+            <div className="font-medium mb-2">📋 Dostępne dodatki dla {product.name}:</div>
+            <div className="text-xs text-she-primary">
+              {product.extrasAllowed.length === 1 
+                ? '1 opcja dodatkowa' 
+                : `${product.extrasAllowed.length} opcji dodatkowych`
+              }
+            </div>
+            
+            {/* Product-specific explanation */}
+            {selectedProduct === 'plecak-mama' || selectedProduct === 'plecak-dziecko' ? (
+              <div className="mt-2 text-xs text-she-primary">
+                💡 Plecaki mogą mieć rączki w różnych kolorach skóry
+              </div>
+            ) : selectedProduct === 'torbacz-duza' || selectedProduct === 'torbacz-mala' ? (
+              <div className="mt-2 text-xs text-she-primary">
+                💡 Torby Torbacz mogą mieć rączki w różnych kolorach skóry
+              </div>
+            ) : selectedProduct === 'torba-laptop' ? (
+              <div className="mt-2 text-xs text-she-primary">
+                💡 Torby na laptopa mogą mieć rączki w różnych kolorach skóry
+              </div>
+            ) : selectedProduct === 'nerka' ? (
+              <div className="mt-2 text-xs text-she-primary">
+                💡 Nerki: dostępne paski ze skóry (różne kolory)
+              </div>
+            ) : selectedProduct === 'kosmetyczka' ? (
+              <div className="mt-2 text-xs text-she-primary">
+                💡 Kosmetyczki mogą mieć różne rozmiary (S, M, L)
+              </div>
+            ) : null}
+          </div>
+        </div>
       </div>
 
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
@@ -103,6 +182,30 @@ export function StepExtras() {
               </div>
             </div>
           </div>
+          
+          {/* Additional info about selected extras */}
+          <div className="mt-4 pt-4 border-t border-blue-200">
+            <div className="text-sm text-blue-700">
+              <div className="font-medium mb-2">💡 Informacje o wybranych dodatkach:</div>
+              <div className="space-y-1 text-xs">
+                {extras.includes('raczki-czarna-skora') && (
+                  <div>• Rączki z czarnej skóry naturalnej - elegancki wygląd</div>
+                )}
+                {extras.includes('raczki-brazowa-skora') && (
+                  <div>• Rączki z brązowej skóry naturalnej - klasyczny styl</div>
+                )}
+                {extras.includes('kosmetyczka-rozmiar-S') && (
+                  <div>• Rozmiar S - idealny na podróż z podstawowymi kosmetykami</div>
+                )}
+                {extras.includes('kosmetyczka-rozmiar-M') && (
+                  <div>• Rozmiar M - uniwersalny rozmiar dla większości potrzeb</div>
+                )}
+                {extras.includes('kosmetyczka-rozmiar-L') && (
+                  <div>• Rozmiar L - duża pojemność dla wszystkich kosmetyków</div>
+                )}
+              </div>
+            </div>
+          </div>
         </div>
       )}
 
@@ -110,7 +213,31 @@ export function StepExtras() {
         <div className="text-center py-12 text-gray-500">
           <div className="text-4xl mb-4">💡</div>
           <div className="text-lg font-medium mb-2">Nie wybrano żadnych opcji dodatkowych</div>
-          <div className="text-base">Kliknij na opcje powyżej, aby je dodać</div>
+          <div className="text-base mb-4">Kliknij na opcje powyżej, aby je dodać</div>
+          
+          {/* Available extras reminder */}
+          <div className="max-w-md mx-auto bg-she-light rounded-xl p-4">
+            <div className="text-sm text-she-dark">
+              <div className="font-medium mb-2">🎯 Dostępne opcje:</div>
+              <div className="space-y-1 text-xs text-she-primary">
+                {product.extrasAllowed.includes('raczki-czarna-skora') && (
+                  <div>• Rączki - czarna skóra naturalna</div>
+                )}
+                {product.extrasAllowed.includes('raczki-brazowa-skora') && (
+                  <div>• Rączki - brązowa skóra naturalna</div>
+                )}
+                {product.extrasAllowed.includes('kosmetyczka-rozmiar-S') && (
+                  <div>• Rozmiar S - mała kosmetyczka</div>
+                )}
+                {product.extrasAllowed.includes('kosmetyczka-rozmiar-M') && (
+                  <div>• Rozmiar M - średnia kosmetyczka</div>
+                )}
+                {product.extrasAllowed.includes('kosmetyczka-rozmiar-L') && (
+                  <div>• Rozmiar L - duża kosmetyczka</div>
+                )}
+              </div>
+            </div>
+          </div>
         </div>
       )}
     </div>

@@ -1,6 +1,10 @@
 "use client";
 import React from "react";
 import { useConfigurator } from "@/store/configurator";
+import { StepMaterial } from "@/components/configurator/steps/StepMaterial";
+import { StepHardware } from "@/components/configurator/steps/StepHardware";
+import { StepEmbroidery } from "@/components/configurator/steps/StepEmbroidery";
+import { getProductConfig } from "@/config/products";
 import type { LiningColor } from "@/types/configurator";
 
 const LINING_COLORS: { id: LiningColor; label: string; color: string; description: string }[] = [
@@ -19,69 +23,73 @@ const LINING_COLORS: { id: LiningColor; label: string; color: string; descriptio
 ];
 
 export function StepLining() {
-  const { lining, setLining } = useConfigurator();
+  const { material, lining, setLining, selectedProduct } = useConfigurator();
+  const product = getProductConfig(selectedProduct);
+  const isWorek = product?.id === "worek";
+  const needsHardware = !isWorek && Boolean(product?.enabledSteps.hardware);
+
+  // No auto defaults; user must pick required options
 
   return (
-    <div className="space-y-8">
+    <div className="space-y-6">
       <div className="text-center">
-        <h3 className="text-2xl font-bold text-gray-900 mb-3">Wybór podszewki</h3>
-        <p className="text-base text-gray-600 max-w-2xl mx-auto">
-          Podszewka to wewnętrzna część produktu. Wybierz kolor, który najlepiej pasuje do Twojego stylu.
+        <h3 className="text-xl font-semibold text-gray-900 mb-1">Krok 2 — Konfiguracja</h3>
+        <p className="text-sm text-gray-600 max-w-2xl mx-auto">
+          {isWorek
+            ? "Wybierz materiał i ustaw haft (ten produkt nie posiada okuć)."
+            : "Wybierz podszewkę, a następnie dobierz materiał, okucia oraz ustaw haft."}
         </p>
       </div>
-      
-      <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
-        {LINING_COLORS.map((l) => (
-          <button
-            key={l.id}
-            onClick={() => setLining(l.id)}
-            className={`rounded-2xl border-2 p-8 text-left transition-all hover:shadow-xl ${
-              lining === l.id 
-                ? "border-black bg-black/5 shadow-lg" 
-                : "border-gray-200 hover:border-gray-300 hover:bg-gray-50 hover:shadow-xl"
-            }`}
-          >
-            <div className="flex items-start gap-6">
-              <div 
-                className="w-24 h-24 rounded-2xl border-2 flex-shrink-0 shadow-lg"
-                style={{ 
-                  backgroundColor: l.color,
-                  borderColor: l.id === "white" ? "#d1d5db" : "#000"
-                }}
-              />
-              <div className="flex-1 min-w-0">
-                <div className="font-bold text-gray-900 text-2xl mb-3">{l.label}</div>
-                <div className="text-base text-gray-600">{l.description}</div>
-              </div>
-              {lining === l.id && (
-                <div className="w-8 h-8 bg-black rounded-full flex items-center justify-center flex-shrink-0 shadow-lg">
-                  <svg className="w-4 h-4 text-white" fill="currentColor" viewBox="0 0 20 20">
-                    <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
-                  </svg>
+      {!isWorek && (
+        <div className="grid grid-cols-2 gap-3">
+          {LINING_COLORS.map((l) => (
+            <button
+              key={l.id}
+              onClick={() => setLining(l.id)}
+              className={`rounded-xl border p-4 text-left transition ${
+                lining === l.id 
+                  ? "border-black bg-black/5" 
+                  : "border-gray-200 hover:border-gray-300 hover:bg-gray-50"
+              }`}
+            >
+              <div className="flex items-center gap-3 w-full">
+                <div 
+                  className="w-12 h-12 rounded-lg border flex-shrink-0"
+                  style={{ 
+                    backgroundColor: l.color,
+                    borderColor: l.id === "white" ? "#d1d5db" : "#000"
+                  }}
+                />
+                <div className="flex-1 min-w-0">
+                  <div className="font-semibold text-gray-900 text-base">{l.label}</div>
+                  <div className="text-xs text-gray-600">{l.description}</div>
                 </div>
-              )}
-            </div>
-          </button>
-        ))}
-      </div>
-
-      {lining && (
-        <div className="bg-gradient-to-r from-green-50 to-emerald-50 border-2 border-green-200 rounded-2xl p-6">
-          <div className="flex items-center gap-4 text-green-800">
-            <div className="w-12 h-12 bg-green-100 rounded-2xl flex items-center justify-center">
-              <svg className="w-6 h-6 text-green-600" fill="currentColor" viewBox="0 0 20 20">
-                <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
-              </svg>
-            </div>
-            <div>
-              <div className="text-lg font-bold mb-1">Kolor podszewki wybrany!</div>
-              <div className="text-base">
-                <strong>{LINING_COLORS.find(l => l.id === lining)?.label}</strong>
+                {lining === l.id && (
+                  <div className="ml-2 h-6 w-6 rounded-full bg-black text-white flex items-center justify-center shadow">
+                    <svg className="w-3 h-3" fill="currentColor" viewBox="0 0 20 20">
+                      <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
+                    </svg>
+                  </div>
+                )}
               </div>
-            </div>
-          </div>
+            </button>
+          ))}
         </div>
       )}
+
+      <div className="mt-6">
+        <StepMaterial />
+      </div>
+
+      {!isWorek && (
+        <div className="mt-6">
+          <StepHardware />
+        </div>
+      )}
+
+      <div className="mt-6">
+        <StepEmbroidery />
+      </div>
     </div>
   );
 }

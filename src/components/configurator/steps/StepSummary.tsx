@@ -33,6 +33,7 @@ const EXTRA_LABELS: Record<string, string> = {
 
 export function StepSummary() {
   const { selectedProduct, material, lining, hardware, embroidery, extras, setStep } = useConfigurator();
+  
   const product = getProductConfig(selectedProduct);
 
   if (!product) {
@@ -45,13 +46,9 @@ export function StepSummary() {
     );
   }
 
-  const basePrice = 150; // Base price in PLN
-  const materialPrice = material ? 20 : 0;
-  const liningPrice = lining ? 15 : 0;
-  const hardwarePrice = hardware ? 25 : 0;
-  const embroideryPrice = embroidery.text || embroidery.presetId ? 30 : 0;
-  const extrasPrice = extras.length * 15;
-  const totalPrice = basePrice + materialPrice + liningPrice + hardwarePrice + embroideryPrice + extrasPrice;
+  // Price calculation removed for minimalist summary
+
+  // Simplified summary: no save/order buttons
 
   return (
     <div className="space-y-10">
@@ -95,7 +92,7 @@ export function StepSummary() {
               </div>
             </div>
             <button
-              onClick={() => setStep("material")}
+              onClick={() => { setStep("lining"); }}
               className="text-lg text-blue-600 hover:text-blue-800 underline font-bold px-6 py-3 rounded-xl hover:bg-blue-50 transition-all"
             >
               Zmień
@@ -116,7 +113,7 @@ export function StepSummary() {
               </div>
             </div>
             <button
-              onClick={() => setStep("lining")}
+              onClick={() => { setStep("lining"); }}
               className="text-lg text-blue-600 hover:text-blue-800 underline font-bold px-6 py-3 rounded-xl hover:bg-blue-50 transition-all"
             >
               Zmień
@@ -137,7 +134,7 @@ export function StepSummary() {
               </div>
             </div>
             <button
-              onClick={() => setStep("hardware")}
+              onClick={() => { setStep("lining"); }}
               className="text-lg text-blue-600 hover:text-blue-800 underline font-bold px-6 py-3 rounded-xl hover:bg-blue-50 transition-all"
             >
               Zmień
@@ -163,7 +160,7 @@ export function StepSummary() {
               </div>
             </div>
             <button
-              onClick={() => setStep("embroidery")}
+              onClick={() => { setStep("lining"); }}
               className="text-lg text-blue-600 hover:text-blue-800 underline font-bold px-6 py-3 rounded-xl hover:bg-blue-50 transition-all"
             >
               Zmień
@@ -186,7 +183,7 @@ export function StepSummary() {
               </div>
             </div>
             <button
-              onClick={() => setStep("extras")}
+              onClick={() => setStep("lining")}
               className="text-lg text-blue-600 hover:text-blue-800 underline font-bold px-6 py-3 rounded-xl hover:bg-blue-50 transition-all"
             >
               Zmień
@@ -195,62 +192,9 @@ export function StepSummary() {
         )}
       </div>
 
-      {/* Price Breakdown */}
-      <div className="bg-white border-2 border-gray-200 rounded-2xl p-8 shadow-lg">
-        <h4 className="text-2xl font-bold text-gray-900 mb-6">Szczegóły ceny</h4>
-        <div className="space-y-4">
-          <div className="flex justify-between text-lg">
-            <span>Cena podstawowa</span>
-            <span className="font-bold">{basePrice} PLN</span>
-          </div>
-          {materialPrice > 0 && (
-            <div className="flex justify-between text-lg">
-              <span>Materiał</span>
-              <span className="font-bold text-green-600">+{materialPrice} PLN</span>
-            </div>
-          )}
-          {liningPrice > 0 && (
-            <div className="flex justify-between text-lg">
-              <span>Podszewka</span>
-              <span className="font-bold text-green-600">+{liningPrice} PLN</span>
-            </div>
-          )}
-          {hardwarePrice > 0 && (
-            <div className="flex justify-between text-lg">
-              <span>Okucia i zamki</span>
-              <span className="font-bold text-green-600">+{hardwarePrice} PLN</span>
-            </div>
-          )}
-          {embroideryPrice > 0 && (
-            <div className="flex justify-between text-lg">
-              <span>Haft</span>
-              <span className="font-bold text-green-600">+{embroideryPrice} PLN</span>
-            </div>
-          )}
-          {extrasPrice > 0 && (
-            <div className="flex justify-between text-lg">
-              <span>Opcje dodatkowe</span>
-              <span className="font-bold text-green-600">+{extrasPrice} PLN</span>
-            </div>
-          )}
-          <div className="border-t-2 pt-6">
-            <div className="flex justify-between text-2xl font-bold">
-              <span>Cena końcowa</span>
-              <span className="text-blue-600">{totalPrice} PLN</span>
-            </div>
-          </div>
-        </div>
-      </div>
+      {/* Price Breakdown removed */}
 
-      {/* Actions */}
-      <div className="flex flex-col sm:flex-row gap-6 pt-6">
-        <button className="flex-1 h-16 bg-gradient-to-r from-black to-gray-800 text-white rounded-2xl font-bold hover:from-gray-800 hover:to-black transition-all shadow-xl hover:shadow-2xl text-lg">
-          🛒 Dodaj do koszyka
-        </button>
-        <button className="h-16 px-10 border-2 border-gray-300 rounded-2xl hover:bg-gray-50 transition-all font-bold text-lg">
-          💾 Zapisz wersję
-        </button>
-      </div>
+      {/* Actions removed (order/save) per request */}
     </div>
   );
 }

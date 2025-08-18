@@ -2,6 +2,7 @@ import { type ProductConfig, type ProductKey, type ExtraKey } from "@/types/conf
 
 // Allowed extras shortcuts
 const RACZKI: ExtraKey[] = ["raczki-czarna-skora", "raczki-brazowa-skora"];
+const PASKI: ExtraKey[] = ["pasek-czarna-skora", "pasek-brazowa-skora"];
 const KOSMETYCZKA_ROZMIARY: ExtraKey[] = [
   "kosmetyczka-rozmiar-S",
   "kosmetyczka-rozmiar-M",
@@ -64,6 +65,13 @@ export const PRODUCTS: ProductConfig[] = [
     enabledSteps: { material: true, lining: true, hardware: true, embroidery: true, extras: false },
     embroideryMaxChars: 12,
     extrasAllowed: [],
+  },
+  {
+    id: "nerka",
+    name: "Nerka",
+    enabledSteps: { material: true, lining: true, hardware: true, embroidery: true, extras: true },
+    embroideryMaxChars: 10,
+    extrasAllowed: [...PASKI],
   },
 ];
 

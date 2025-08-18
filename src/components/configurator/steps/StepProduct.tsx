@@ -3,11 +3,14 @@
 import React from "react";
 import { useConfigurator } from "@/store/configurator";
 import { PRODUCTS } from "@/config/products";
+import { Card, Badge } from "@radix-ui/themes";
+import { CheckIcon } from "@radix-ui/react-icons";
 
 const PRODUCT_ICONS: Record<string, string> = {
   "plecak-mama": "🎒",
   "plecak-dziecko": "🎒",
   "worek": "👜",
+  "nerka": "🎒",
   "torba-duza": "🛍️",
   "torba-mala": "🛍️",
   "kosmetyczka": "💄",
@@ -22,61 +25,58 @@ export default function StepProduct() {
     <div className="space-y-6">
       {/* Header */}
       <div className="text-center mb-6">
-        <h3 className="text-xl font-semibold text-she-dark mb-2">
-          Wybierz produkt do personalizacji
+        <h3 className="text-2xl font-semibold text-she-dark tracking-tight">
+          Wybierz produkt
         </h3>
-        <p className="text-sm text-she-primary">
-          Każdy produkt ma różne opcje konfiguracji
-        </p>
+        <p className="mt-1 text-sm text-she-primary">Kliknij kartę poniżej, aby kontynuować</p>
       </div>
 
       {/* Product Grid */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3 gap-4">
         {PRODUCTS.map((product) => (
-          <button
+          <Card
             key={product.id}
             onClick={() => setProduct(product.id)}
-            className={`
-              p-4 rounded-xl transition-all duration-200 text-left she-shadow hover:she-shadow-lg
-              ${selectedProduct === product.id
-                ? 'border-2 border-she-primary bg-she-primary/5 she-shadow-lg'
-                : 'border border-she-secondary bg-white hover:border-she-primary hover:bg-she-light'
-              }
-            `}
+            onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); setProduct(product.id); } }}
+            tabIndex={0}
+            role="button"
+            aria-pressed={selectedProduct === product.id}
+            className={`group relative cursor-pointer transition-all border border-she-secondary/60 bg-white/70 backdrop-blur supports-[backdrop-filter]:bg-white/60 hover:shadow-xl hover:-translate-y-0.5 ${selectedProduct === product.id ? 'ring-2 ring-amber-700 shadow-xl' : 'shadow-md'}`}
           >
-            {/* Product Icon */}
-            <div className="text-3xl mb-3 text-center">
-              {PRODUCT_ICONS[product.id]}
-            </div>
+            {/* Selected marker */}
+            {selectedProduct === product.id && (
+              <div className="absolute top-3 right-3 h-7 w-7 rounded-full bg-amber-700 text-white flex items-center justify-center shadow-sm">
+                <CheckIcon />
+              </div>
+            )}
 
-            {/* Product Info */}
-            <div className="space-y-1.5">
-              <h4 className="text-lg font-medium text-she-dark">
-                {product.name}
-              </h4>
-              
-              {/* Features */}
-              <div className="space-y-1">
-                {product.embroideryMaxChars > 0 && (
-                  <div className="flex items-center gap-1.5 text-xs text-she-primary">
-                    <svg className="w-3 h-3" fill="currentColor" viewBox="0 0 20 20">
-                      <path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
-                    </svg>
-                    Haft do {product.embroideryMaxChars} znaków
-                  </div>
-                )}
-                
-                {product.extrasAllowed.length > 0 && (
-                  <div className="flex items-center gap-1.5 text-xs text-she-primary">
-                    <svg className="w-3 h-3" fill="currentColor" viewBox="0 0 20 20">
-                      <path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
-                    </svg>
-                    {product.extrasAllowed.length} opcji dodatkowych
-                  </div>
-                )}
+            {/* Icon */}
+            <div className="flex justify-center">
+              <div className="mb-4 h-16 w-16 rounded-2xl border border-amber-200 bg-gradient-to-br from-amber-50 to-white flex items-center justify-center text-4xl shadow-sm group-hover:from-amber-100">
+                {PRODUCT_ICONS[product.id]}
               </div>
             </div>
-          </button>
+
+            {/* Name */}
+            <div className="text-center">
+              <h4 className="text-base font-semibold text-she-dark">
+                {product.name}
+              </h4>
+            </div>
+
+            {/* Small capabilities badges (minimal) */}
+            <div className="mt-3 flex items-center justify-center gap-2">
+              {product.enabledSteps.embroidery && (
+                <Badge variant="soft" color="orange" radius="full" className="text-xs">Haft</Badge>
+              )}
+              {product.enabledSteps.hardware && (
+                <Badge variant="soft" color="bronze" radius="full" className="text-xs">Okucia</Badge>
+              )}
+              {product.extrasAllowed.length > 0 && (
+                <Badge variant="soft" color="gray" radius="full" className="text-xs">Dodatki</Badge>
+              )}
+            </div>
+          </Card>
         ))}
       </div>
 
