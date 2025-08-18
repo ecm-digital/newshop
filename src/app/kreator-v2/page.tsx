@@ -1,8 +1,8 @@
 "use client";
 
-import React from "react";
+import React, { useEffect } from "react";
 import { useConfigurator } from "@/store/configurator";
-import { STEPS_ORDER, STEPS, isStepEnabled } from "@/config/steps";
+import { STEPS } from "@/config/steps";
 import Stepper from "@/components/configurator/Stepper";
 // Removed right sidebar (Preview/Price/PDF)
 import { Button } from "@radix-ui/themes";
@@ -12,6 +12,13 @@ import { StepSummary } from "@/components/configurator/steps/StepSummary";
 
 export default function KreatorV2Page() {
   const { step, selectedProduct, material, lining, hardware, goToNextStep, goToPreviousStep } = useConfigurator();
+
+  // Scroll to top on step change
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+  }, [step]);
 
   const nextLabel = step === 'product'
     ? 'Personalizuj wybrany produkt'
@@ -41,7 +48,7 @@ export default function KreatorV2Page() {
         {/* Header */}
         <header className="text-center mb-12">
         <h1 className="text-4xl sm:text-5xl font-bold text-gray-800 mb-4">
-          Konfigurator Torebek SHE
+          Konfigurator SHE
         </h1>
         <p className="text-lg sm:text-xl text-gray-600 max-w-2xl mx-auto leading-relaxed">
           Spersonalizuj swoją luksusową torebkę skórzaną z najwyższej jakości materiałów

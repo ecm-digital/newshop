@@ -11,6 +11,7 @@ export interface EmailData {
 export interface OrderConfirmationData {
   orderId: string;
   customerName: string;
+  customerEmail?: string;
   productName: string;
   totalAmount: number;
   currency: string;
@@ -22,6 +23,7 @@ export interface OrderConfirmationData {
 export interface OrderStatusData {
   orderId: string;
   customerName: string;
+  customerEmail?: string;
   status: string;
   statusDescription: string;
   estimatedCompletion?: string;
@@ -30,6 +32,7 @@ export interface OrderStatusData {
 export interface PaymentData {
   orderId: string;
   customerName: string;
+  customerEmail?: string;
   amount: number;
   currency: string;
   paymentMethod: string;
@@ -39,6 +42,7 @@ export interface PaymentData {
 export interface ShippingData {
   orderId: string;
   customerName: string;
+  customerEmail?: string;
   trackingNumber: string;
   carrier: string;
   estimatedDelivery: string;

@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useConfigurator } from '@/store/configurator';
-import type { ProjectHistory } from '@/types/configurator';
+import type { ProjectHistory, ProductKey } from '@/types/configurator';
 
 const STORAGE_KEY = 'she-project-history';
 
@@ -51,11 +51,20 @@ export function useProjectHistory() {
     const project = projects.find(p => p.id === projectId);
     if (!project) return false;
 
-    // Restore configuration
-    configurator.setSelectedProduct(project.configuration.selectedProduct);
-    configurator.setSelectedMaterial(project.configuration.material);
-    configurator.setSelectedLining(project.configuration.lining);
-    configurator.setSelectedHardware(project.configuration.hardware);
+    // Restore configuration (guard against null product)
+    const restoredProduct = project.configuration.selectedProduct as ProductKey | null;
+    if (restoredProduct) {
+      configurator.setSelectedProduct(restoredProduct as ProductKey);
+    }
+    if (project.configuration.material) {
+      configurator.setSelectedMaterial(project.configuration.material);
+    }
+    if (project.configuration.lining) {
+      configurator.setSelectedLining(project.configuration.lining);
+    }
+    if (project.configuration.hardware) {
+      configurator.setSelectedHardware(project.configuration.hardware);
+    }
     configurator.setEmbroidery(project.configuration.embroidery);
     configurator.setSelectedExtras(project.configuration.extras);
     configurator.setStep(project.configuration.step);
