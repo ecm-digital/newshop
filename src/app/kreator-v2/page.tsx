@@ -36,16 +36,16 @@ export default function KreatorV2Page() {
     : true;
 
   return (
-    <div className="min-h-screen she-gradient">
+    <div className="min-h-screen bg-white">
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         {/* Header */}
-        <header className="text-center mb-8">
-          <h1 className="text-3xl sm:text-4xl font-bold text-she-dark mb-2">
-            Konfigurator Personalizacji
-          </h1>
-          <p className="text-base sm:text-lg text-she-primary">
-            Stwórz swój wymarzony produkt krok po kroku
-          </p>
+        <header className="text-center mb-12">
+        <h1 className="text-4xl sm:text-5xl font-bold text-gray-800 mb-4">
+          Konfigurator Torebek SHE
+        </h1>
+        <p className="text-lg sm:text-xl text-gray-600 max-w-2xl mx-auto leading-relaxed">
+          Spersonalizuj swoją luksusową torebkę skórzaną z najwyższej jakości materiałów
+        </p>
         </header>
 
         {/* Stepper */}
@@ -57,21 +57,16 @@ export default function KreatorV2Page() {
         <div className="grid grid-cols-1 gap-8">
           {/* Configuration Panel */}
           <div>
-            <div className="bg-white rounded-2xl she-shadow-lg p-6 lg:p-8">
+            <div className="glass-strong rounded-3xl she-shadow-lg p-6 lg:p-8 hover-lift">
               {/* Step Header (hidden for product and configuration steps) */}
               {step !== 'product' && step !== 'lining' && (
-                <div className="flex items-center mb-6">
-                  <div className="w-12 h-12 bg-she-primary text-white rounded-full flex items-center justify-center mr-4 she-shadow">
-                    <span className="text-lg font-semibold">{STEPS_ORDER.indexOf(step) + 1}</span>
-                  </div>
-                  <div>
-                    <h2 className="text-xl font-semibold text-she-dark">
-                      {STEPS.find(s => s.key === step)?.title}
-                    </h2>
-                    <p className="text-sm text-she-primary">
-                      {STEPS.find(s => s.key === step)?.description}
-                    </p>
-                  </div>
+                <div className="mb-8">
+                  <h2 className="text-2xl font-bold text-gray-800 mb-2">
+                    {STEPS.find(s => s.key === step)?.title}
+                  </h2>
+                  <p className="text-sm text-gray-600">
+                    {STEPS.find(s => s.key === step)?.description}
+                  </p>
                 </div>
               )}
 
@@ -83,14 +78,17 @@ export default function KreatorV2Page() {
               </div>
 
               {/* Navigation */}
-              <div className="flex justify-between items-center pt-6 border-t border-she-secondary">
+              <div className="flex justify-between items-center pt-8 border-t border-white/20">
                 <Button
                   onClick={goToPreviousStep}
                   disabled={step === 'product'}
                   variant="soft"
                   size="3"
-                  className="rounded-2xl"
+                  className="rounded-2xl px-8 py-3 bg-white/50 hover:bg-white/70 transition-all duration-200 she-shadow hover:she-shadow-lg disabled:opacity-50"
                 >
+                  <svg className="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+                  </svg>
                   {prevLabel}
                 </Button>
                 
@@ -99,72 +97,19 @@ export default function KreatorV2Page() {
                   disabled={!canProceedUI}
                   variant="solid"
                   size="3"
-                  className="rounded-2xl"
+                  className="rounded-2xl px-8 py-3 she-gradient-primary hover:she-gradient-warm text-white transition-all duration-200 she-shadow-glow hover:scale-105 disabled:opacity-50 disabled:hover:scale-100"
                 >
                   {nextLabel}
+                  <svg className="w-4 h-4 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                  </svg>
                 </Button>
               </div>
             </div>
           </div>
         </div>
 
-        {/* Mobile Progress Bar */}
-        <div className="lg:hidden mt-8">
-          <div className="bg-white rounded-xl she-shadow p-4">
-            <div className="flex items-center justify-between mb-2">
-              <span className="text-xs font-medium text-she-primary">
-                Krok {STEPS_ORDER.filter(s => {
-                  const { selectedProduct } = useConfigurator.getState();
-                  return isStepEnabled(s, selectedProduct);
-                }).indexOf(step) + 1} z {STEPS_ORDER.filter(s => {
-                  const { selectedProduct } = useConfigurator.getState();
-                  return isStepEnabled(s, selectedProduct);
-                }).length}
-              </span>
-              <span className="text-xs text-she-dark">
-                {Math.round(((STEPS_ORDER.filter(s => {
-                  const { selectedProduct } = useConfigurator.getState();
-                  return isStepEnabled(s, selectedProduct);
-                }).indexOf(step) + 1) / STEPS_ORDER.filter(s => {
-                  const { selectedProduct } = useConfigurator.getState();
-                  return isStepEnabled(s, selectedProduct);
-                }).length) * 100)}%
-              </span>
-            </div>
-            <div className="w-full bg-she-secondary rounded-full h-3">
-              <div 
-                className="bg-she-primary h-3 rounded-full transition-all duration-300 ease-out"
-                style={{ width: `${((STEPS_ORDER.filter(s => {
-                  const { selectedProduct } = useConfigurator.getState();
-                  return isStepEnabled(s, selectedProduct);
-                }).indexOf(step) + 1) / STEPS_ORDER.filter(s => {
-                  const { selectedProduct } = useConfigurator.getState();
-                  return isStepEnabled(s, selectedProduct);
-                }).length) * 100}%` }}
-              />
-            </div>
-            <div className="mt-3 flex justify-between">
-              <Button
-                onClick={goToPreviousStep}
-                disabled={step === 'product'}
-                variant="soft"
-                size="2"
-                className="rounded-xl"
-              >
-                {prevLabel}
-              </Button>
-              <Button
-                onClick={goToNextStep}
-                disabled={!canProceedUI}
-                variant="solid"
-                size="2"
-                className="rounded-xl"
-              >
-                {nextLabel}
-              </Button>
-            </div>
-          </div>
-        </div>
+
       </div>
     </div>
   );

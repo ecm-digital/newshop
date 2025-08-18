@@ -22,63 +22,78 @@ export function StepHardware() {
   const { hardware, setHardware } = useConfigurator();
 
   return (
-    <div className="space-y-8">
-      <div className="text-center">
-        <h3 className="text-2xl font-bold text-gray-900 mb-3">Wybór okuć i zamków</h3>
-        <p className="text-base text-gray-600 max-w-2xl mx-auto">
-          Okucia i zamki to metalowe elementy produktu. Wybierz kolor, który najlepiej pasuje do wybranego materiału.
+    <div className="space-y-6">
+      <div>
+        <h4 className="text-xl font-semibold text-slate-800 mb-4">Okucia i zamki</h4>
+        <p className="text-slate-600 mb-6">
+          Wybierz kolor okuć dopasowany do materiału.
         </p>
       </div>
-      
-      <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
         {HARDWARE_COLORS.map((h) => (
-          <button
+          <div
             key={h.id}
             onClick={() => setHardware(h.id)}
-            className={`rounded-2xl border-2 p-8 text-left transition-all hover:shadow-xl ${
-              hardware === h.id 
-                ? "border-black bg-black/5 shadow-lg" 
-                : "border-gray-200 hover:border-gray-300 hover:bg-gray-50 hover:shadow-xl"
-            }`}
+            className={`
+              group relative cursor-pointer transition-all duration-300 hover-lift
+              glass-strong rounded-3xl p-6 she-shadow-lg hover:she-shadow-glow
+              ${hardware === h.id 
+                ? 'ring-2 ring-indigo-500 bg-gradient-to-br from-indigo-50/80 to-purple-50/80 she-shadow-glow scale-105' 
+                : 'hover:bg-white/60 hover:scale-102'
+              }
+            `}
           >
-            <div className="flex items-start gap-6">
+            {/* Selected marker */}
+            {hardware === h.id && (
+              <div className="absolute -top-2 -right-2 h-8 w-8 rounded-full bg-gradient-to-r from-indigo-500 to-purple-600 text-white flex items-center justify-center shadow-lg animate-pulse">
+                <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+                  <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
+                </svg>
+              </div>
+            )}
+
+            <div className="flex items-start gap-4">
               <div 
-                className="w-24 h-24 rounded-2xl border-2 flex-shrink-0 shadow-lg"
+                className={`
+                  w-20 h-20 rounded-3xl border-2 flex-shrink-0 transition-all duration-300
+                  she-shadow group-hover:she-shadow-warm group-hover:scale-110
+                  ${hardware === h.id ? 'scale-110' : ''}
+                `}
                 style={{ 
                   backgroundColor: h.color,
-                  borderColor: "#000"
+                  borderColor: hardware === h.id ? "#6366f1" : "#334155"
                 }}
               />
               <div className="flex-1 min-w-0">
-                <div className="font-bold text-gray-900 text-2xl mb-3">{h.label}</div>
-                <div className="text-base text-gray-600">{h.description}</div>
+                <div className="font-bold text-slate-800 text-lg mb-2 group-hover:text-slate-900">{h.label}</div>
+                <div className="text-sm text-slate-600">{h.description}</div>
               </div>
-              {hardware === h.id && (
-                <div className="w-8 h-8 bg-black rounded-full flex items-center justify-center flex-shrink-0 shadow-lg">
-                  <svg className="w-4 h-4 text-white" fill="currentColor" viewBox="0 0 20 20">
-                    <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
-                  </svg>
-                </div>
-              )}
             </div>
-          </button>
+
+            {/* Hover indicator */}
+            <div className={`
+              absolute bottom-3 left-1/2 transform -translate-x-1/2 w-8 h-1 rounded-full transition-all duration-300
+              ${hardware === h.id 
+                ? 'bg-gradient-to-r from-indigo-500 to-purple-600' 
+                : 'bg-slate-300 group-hover:bg-gradient-to-r group-hover:from-indigo-400 group-hover:to-purple-500'
+              }
+            `} />
+          </div>
         ))}
       </div>
 
       {hardware && (
-        <div className="bg-gradient-to-r from-green-50 to-emerald-50 border-2 border-green-200 rounded-2xl p-6">
-          <div className="flex items-center gap-4 text-green-800">
-            <div className="w-12 h-12 bg-green-100 rounded-2xl flex items-center justify-center">
-              <svg className="w-6 h-6 text-green-600" fill="currentColor" viewBox="0 0 20 20">
+        <div className="text-center p-4 glass rounded-3xl she-shadow-lg border border-emerald-200/50 bg-gradient-to-r from-emerald-50/80 to-teal-50/80">
+          <div className="inline-flex items-center gap-3 text-emerald-700">
+            <div className="w-8 h-8 bg-emerald-100 rounded-2xl flex items-center justify-center">
+              <svg className="w-4 h-4 text-emerald-600" fill="currentColor" viewBox="0 0 20 20">
                 <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
               </svg>
             </div>
-            <div>
-              <div className="text-lg font-bold mb-1">Kolor okuć wybrany!</div>
-              <div className="text-base">
-                <strong>{HARDWARE_COLORS.find(h => h.id === hardware)?.label}</strong>
-              </div>
-            </div>
+            <span className="font-semibold">
+              Okucia wybrane: <strong>{HARDWARE_COLORS.find(h => h.id === hardware)?.label}</strong>
+            </span>
           </div>
         </div>
       )}

@@ -1,38 +1,70 @@
 @import "tailwindcss";
 
 :root {
-  /* SHE Shop Color Palette */
-  --she-primary: #8B7355;      /* Warm brown accent */
-  --she-secondary: #D4C4A8;    /* Light beige */
-  --she-dark: #1A1A1A;        /* Deep black */
-  --she-light: #F8F6F3;       /* Warm off-white */
-  --she-accent: #C4A484;      /* Medium brown */
-  --she-success: #4A6741;     /* Muted green */
-  --she-error: #B91C1C;       /* Muted red */
+  /* SHE Brand Color Palette - Matching Website */
+  --she-primary: #C4A484;      /* Beige/sand color from website */
+  --she-primary-light: #D4C4A8; /* Light beige */
+  --she-primary-dark: #A08B6F;  /* Darker beige */
+  --she-secondary: #F8F8F8;    /* Light gray */
+  --she-dark: #333333;         /* Dark gray */
+  --she-light: #FFFFFF;        /* Pure white */
+  --she-accent: #C4A484;       /* Same as primary */
+  --she-accent-light: #E5D5C3; /* Very light beige */
+  --she-success: #28a745;      /* Success green */
+  --she-error: #dc3545;        /* Error red */
+  --she-warning: #ffc107;      /* Warning yellow */
+  
+  /* Glass morphism with neutral tones */
+  --glass-bg: rgba(255, 255, 255, 0.8);
+  --glass-border: rgba(196, 164, 132, 0.2);
+  
+  /* Clean gradients matching website aesthetic */
+  --gradient-primary: linear-gradient(135deg, #C4A484 0%, #D4C4A8 100%);
+  --gradient-secondary: linear-gradient(135deg, #F8F8F8 0%, #FFFFFF 100%);
+  --gradient-accent: linear-gradient(135deg, #C4A484 0%, #E5D5C3 100%);
+  --gradient-warm: linear-gradient(135deg, #D4C4A8 0%, #E5D5C3 100%);
+  --gradient-cool: linear-gradient(135deg, #FFFFFF 0%, #F8F8F8 100%);
 }
 
 body {
   font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', sans-serif;
-  background-color: var(--she-light);
+  background: #FFFFFF;
   color: var(--she-dark);
+  min-height: 100vh;
 }
 
-/* Custom utility classes for SHE design */
+  /* SHE Brand utility classes */
 @layer utilities {
   .she-gradient {
-    background: linear-gradient(135deg, var(--she-light) 0%, #FFFFFF 100%);
+    background: var(--gradient-cool);
+  }
+  
+  .she-gradient-primary {
+    background: var(--gradient-primary);
+  }
+  
+  .she-gradient-warm {
+    background: var(--gradient-warm);
   }
   
   .she-shadow {
-    box-shadow: 0 4px 20px rgba(139, 115, 85, 0.08);
+    box-shadow: 0 4px 20px rgba(196, 164, 132, 0.15);
   }
   
   .she-shadow-lg {
-    box-shadow: 0 8px 30px rgba(139, 115, 85, 0.12);
+    box-shadow: 0 8px 32px rgba(196, 164, 132, 0.2);
+  }
+  
+  .she-shadow-warm {
+    box-shadow: 0 8px 32px rgba(196, 164, 132, 0.25);
+  }
+  
+  .she-shadow-glow {
+    box-shadow: 0 0 20px rgba(196, 164, 132, 0.3);
   }
   
   .she-border {
-    border: 1px solid rgba(139, 115, 85, 0.15);
+    border: 1px solid rgba(196, 164, 132, 0.15);
   }
   
   .she-text-primary {
@@ -45,5 +77,66 @@ body {
   
   .she-bg-secondary {
     background-color: var(--she-secondary);
+  }
+  
+  /* Glass morphism utilities */
+  .glass {
+    background: var(--glass-bg);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border: 1px solid var(--glass-border);
+  }
+
+  .glass-strong {
+    background: rgba(255, 255, 255, 0.4);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+  }
+  
+  /* Hover animations */
+  .hover-lift {
+    transition: transform 0.2s ease-in-out;
+  }
+  
+  .hover-lift:hover {
+    transform: translateY(-2px);
+  }
+  
+  .hover-glow:hover {
+    box-shadow: 0 0 20px rgba(196, 164, 132, 0.4);
+  }
+  
+  /* Custom slider styles with SHE brand colors */
+  .slider::-webkit-slider-thumb {
+    appearance: none;
+    height: 20px;
+    width: 20px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #C4A484, #D4C4A8);
+    cursor: pointer;
+    box-shadow: 0 2px 8px rgba(196, 164, 132, 0.3);
+    transition: all 0.2s ease-in-out;
+  }
+  
+  .slider::-webkit-slider-thumb:hover {
+    transform: scale(1.2);
+    box-shadow: 0 4px 12px rgba(196, 164, 132, 0.4);
+  }
+  
+  .slider::-moz-range-thumb {
+    height: 20px;
+    width: 20px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #C4A484, #D4C4A8);
+    cursor: pointer;
+    border: none;
+    box-shadow: 0 2px 8px rgba(196, 164, 132, 0.3);
+    transition: all 0.2s ease-in-out;
+  }
+  
+  .slider::-moz-range-thumb:hover {
+    transform: scale(1.2);
+    box-shadow: 0 4px 12px rgba(196, 164, 132, 0.4);
   }
 }

@@ -51,143 +51,157 @@ export function StepSummary() {
   // Simplified summary: no save/order buttons
 
   return (
-    <div className="space-y-10">
+    <div className="space-y-8">
       <div className="text-center">
-        <h3 className="text-3xl font-bold text-gray-900 mb-4">Podsumowanie konfiguracji</h3>
-        <p className="text-lg text-gray-600 max-w-3xl mx-auto">
+        <h3 className="text-3xl font-bold text-gray-800 tracking-tight mb-2">
+          Podsumowanie konfiguracji
+        </h3>
+        <p className="text-gray-600 text-lg max-w-3xl mx-auto">
           Sprawdź wszystkie wybory przed dodaniem do koszyka
         </p>
       </div>
 
-      <div className="space-y-6">
+      <div className="space-y-4">
         {/* Product */}
-        <div className="flex items-center justify-between p-6 bg-gradient-to-r from-gray-50 to-blue-50 rounded-2xl border-2 border-gray-200">
-          <div className="flex items-center gap-6">
-            <div className="w-16 h-16 bg-blue-100 rounded-2xl flex items-center justify-center shadow-lg">
-              <span className="text-3xl">🎯</span>
+        <div className="glass-strong rounded-3xl p-6 she-shadow-lg hover:she-shadow-glow transition-all duration-300">
+          <div className="flex items-center justify-between">
+            <div className="flex items-center gap-4">
+              <div className="w-12 h-12 bg-gradient-to-r from-pink-500 to-violet-600 rounded-2xl flex items-center justify-center she-shadow">
+                <span className="text-2xl">🎯</span>
+              </div>
+              <div>
+                <div className="font-bold text-slate-800 text-lg">Produkt</div>
+                <div className="text-sm text-slate-600">{product.name}</div>
+              </div>
             </div>
-            <div>
-              <div className="font-bold text-gray-900 text-xl">Produkt</div>
-              <div className="text-lg text-gray-600">{product.name}</div>
-            </div>
+            <button
+              onClick={() => setStep("product")}
+              className="px-4 py-2 rounded-xl bg-white/50 hover:bg-white/70 text-indigo-600 hover:text-indigo-700 font-semibold text-sm transition-all duration-300 hover-lift she-shadow hover:she-shadow-lg"
+            >
+              Zmień
+            </button>
           </div>
-          <button
-            onClick={() => setStep("product")}
-            className="text-lg text-blue-600 hover:text-blue-800 underline font-bold px-6 py-3 rounded-xl hover:bg-blue-50 transition-all"
-          >
-            Zmień
-          </button>
         </div>
 
         {/* Material */}
         {material && (
-          <div className="flex items-center justify-between p-6 bg-gradient-to-r from-gray-50 to-amber-50 rounded-2xl border-2 border-gray-200">
-            <div className="flex items-center gap-6">
-              <div className="w-16 h-16 bg-amber-100 rounded-2xl flex items-center justify-center shadow-lg">
-                <span className="text-3xl">🧶</span>
+          <div className="glass-strong rounded-3xl p-6 she-shadow-lg hover:she-shadow-glow transition-all duration-300">
+            <div className="flex items-center justify-between">
+              <div className="flex items-center gap-4">
+                <div className="w-12 h-12 bg-gradient-to-r from-amber-500 to-orange-600 rounded-2xl flex items-center justify-center she-shadow">
+                  <span className="text-2xl">🧶</span>
+                </div>
+                <div>
+                  <div className="font-bold text-slate-800 text-lg">Materiał</div>
+                  <div className="text-sm text-slate-600">{MATERIAL_LABELS[material]}</div>
+                </div>
               </div>
-              <div>
-                <div className="font-bold text-gray-900 text-xl">Materiał</div>
-                <div className="text-lg text-gray-600">{MATERIAL_LABELS[material]}</div>
-              </div>
+              <button
+                onClick={() => { setStep("lining"); }}
+                className="px-4 py-2 rounded-xl bg-white/50 hover:bg-white/70 text-indigo-600 hover:text-indigo-700 font-semibold text-sm transition-all duration-300 hover-lift she-shadow hover:she-shadow-lg"
+              >
+                Zmień
+              </button>
             </div>
-            <button
-              onClick={() => { setStep("lining"); }}
-              className="text-lg text-blue-600 hover:text-blue-800 underline font-bold px-6 py-3 rounded-xl hover:bg-blue-50 transition-all"
-            >
-              Zmień
-            </button>
           </div>
         )}
 
         {/* Lining */}
         {lining && (
-          <div className="flex items-center justify-between p-6 bg-gradient-to-r from-gray-50 to-green-50 rounded-2xl border-2 border-gray-200">
-            <div className="flex items-center gap-6">
-              <div className="w-16 h-16 bg-green-100 rounded-2xl flex items-center justify-center shadow-lg">
-                <span className="text-3xl">🔄</span>
+          <div className="glass-strong rounded-3xl p-6 she-shadow-lg hover:she-shadow-glow transition-all duration-300">
+            <div className="flex items-center justify-between">
+              <div className="flex items-center gap-4">
+                <div className="w-12 h-12 bg-gradient-to-r from-emerald-500 to-teal-600 rounded-2xl flex items-center justify-center she-shadow">
+                  <span className="text-2xl">🔄</span>
+                </div>
+                <div>
+                  <div className="font-bold text-slate-800 text-lg">Podszewka</div>
+                  <div className="text-sm text-slate-600">{LINING_LABELS[lining]}</div>
+                </div>
               </div>
-              <div>
-                <div className="font-bold text-gray-900 text-xl">Podszewka</div>
-                <div className="text-lg text-gray-600">{LINING_LABELS[lining]}</div>
-              </div>
+              <button
+                onClick={() => { setStep("lining"); }}
+                className="px-4 py-2 rounded-xl bg-white/50 hover:bg-white/70 text-indigo-600 hover:text-indigo-700 font-semibold text-sm transition-all duration-300 hover-lift she-shadow hover:she-shadow-lg"
+              >
+                Zmień
+              </button>
             </div>
-            <button
-              onClick={() => { setStep("lining"); }}
-              className="text-lg text-blue-600 hover:text-blue-800 underline font-bold px-6 py-3 rounded-xl hover:bg-blue-50 transition-all"
-            >
-              Zmień
-            </button>
           </div>
         )}
 
         {/* Hardware */}
         {hardware && product.enabledSteps.hardware && (
-          <div className="flex items-center justify-between p-6 bg-gradient-to-r from-gray-50 to-purple-50 rounded-2xl border-2 border-gray-200">
-            <div className="flex items-center gap-6">
-              <div className="w-16 h-16 bg-purple-100 rounded-2xl flex items-center justify-center shadow-lg">
-                <span className="text-3xl">🔧</span>
+          <div className="glass-strong rounded-3xl p-6 she-shadow-lg hover:she-shadow-glow transition-all duration-300">
+            <div className="flex items-center justify-between">
+              <div className="flex items-center gap-4">
+                <div className="w-12 h-12 bg-gradient-to-r from-purple-500 to-indigo-600 rounded-2xl flex items-center justify-center she-shadow">
+                  <span className="text-2xl">🔧</span>
+                </div>
+                <div>
+                  <div className="font-bold text-slate-800 text-lg">Okucia i zamki</div>
+                  <div className="text-sm text-slate-600">{HARDWARE_LABELS[hardware]}</div>
+                </div>
               </div>
-              <div>
-                <div className="font-bold text-gray-900 text-xl">Okucia i zamki</div>
-                <div className="text-lg text-gray-600">{HARDWARE_LABELS[hardware]}</div>
-              </div>
+              <button
+                onClick={() => { setStep("lining"); }}
+                className="px-4 py-2 rounded-xl bg-white/50 hover:bg-white/70 text-indigo-600 hover:text-indigo-700 font-semibold text-sm transition-all duration-300 hover-lift she-shadow hover:she-shadow-lg"
+              >
+                Zmień
+              </button>
             </div>
-            <button
-              onClick={() => { setStep("lining"); }}
-              className="text-lg text-blue-600 hover:text-blue-800 underline font-bold px-6 py-3 rounded-xl hover:bg-blue-50 transition-all"
-            >
-              Zmień
-            </button>
           </div>
         )}
 
         {/* Embroidery */}
         {(embroidery.text || embroidery.presetId) && (
-          <div className="flex items-center justify-between p-6 bg-gradient-to-r from-gray-50 to-pink-50 rounded-2xl border-2 border-gray-200">
-            <div className="flex items-center gap-6">
-              <div className="w-16 h-16 bg-pink-100 rounded-2xl flex items-center justify-center shadow-lg">
-                <span className="text-3xl">✂️</span>
-              </div>
-              <div>
-                <div className="font-bold text-gray-900 text-xl">Haft</div>
-                <div className="text-lg text-gray-600">
-                  {embroidery.mode === "custom" 
-                    ? `"${embroidery.text}" (${embroidery.font}, ${embroidery.threadColor})`
-                    : `Wzór: ${embroidery.presetId}`
-                  }
+          <div className="glass-strong rounded-3xl p-6 she-shadow-lg hover:she-shadow-glow transition-all duration-300">
+            <div className="flex items-center justify-between">
+              <div className="flex items-center gap-4">
+                <div className="w-12 h-12 bg-gradient-to-r from-pink-500 to-rose-600 rounded-2xl flex items-center justify-center she-shadow">
+                  <span className="text-2xl">✂️</span>
+                </div>
+                <div>
+                  <div className="font-bold text-slate-800 text-lg">Haft</div>
+                  <div className="text-sm text-slate-600">
+                    {embroidery.mode === "custom" 
+                      ? `"${embroidery.text}" • ${embroidery.font} • ${embroidery.threadColor}`
+                      : `Wzór: ${embroidery.presetId}`
+                    }
+                  </div>
                 </div>
               </div>
+              <button
+                onClick={() => { setStep("lining"); }}
+                className="px-4 py-2 rounded-xl bg-white/50 hover:bg-white/70 text-indigo-600 hover:text-indigo-700 font-semibold text-sm transition-all duration-300 hover-lift she-shadow hover:she-shadow-lg"
+              >
+                Zmień
+              </button>
             </div>
-            <button
-              onClick={() => { setStep("lining"); }}
-              className="text-lg text-blue-600 hover:text-blue-800 underline font-bold px-6 py-3 rounded-xl hover:bg-blue-50 transition-all"
-            >
-              Zmień
-            </button>
           </div>
         )}
 
         {/* Extras */}
         {extras.length > 0 && (
-          <div className="flex items-center justify-between p-6 bg-gradient-to-r from-gray-50 to-indigo-50 rounded-2xl border-2 border-gray-200">
-            <div className="flex items-center gap-6">
-              <div className="w-16 h-16 bg-indigo-100 rounded-2xl flex items-center justify-center shadow-lg">
-                <span className="text-3xl">✨</span>
-              </div>
-              <div>
-                <div className="font-bold text-gray-900 text-xl">Opcje dodatkowe</div>
-                <div className="text-lg text-gray-600">
-                  {extras.map(e => EXTRA_LABELS[e]).join(", ")}
+          <div className="glass-strong rounded-3xl p-6 she-shadow-lg hover:she-shadow-glow transition-all duration-300">
+            <div className="flex items-center justify-between">
+              <div className="flex items-center gap-4">
+                <div className="w-12 h-12 bg-gradient-to-r from-cyan-500 to-blue-600 rounded-2xl flex items-center justify-center she-shadow">
+                  <span className="text-2xl">✨</span>
+                </div>
+                <div>
+                  <div className="font-bold text-slate-800 text-lg">Opcje dodatkowe</div>
+                  <div className="text-sm text-slate-600">
+                    {extras.map(e => EXTRA_LABELS[e]).join(" • ")}
+                  </div>
                 </div>
               </div>
+              <button
+                onClick={() => setStep("lining")}
+                className="px-4 py-2 rounded-xl bg-white/50 hover:bg-white/70 text-indigo-600 hover:text-indigo-700 font-semibold text-sm transition-all duration-300 hover-lift she-shadow hover:she-shadow-lg"
+              >
+                Zmień
+              </button>
             </div>
-            <button
-              onClick={() => setStep("lining")}
-              className="text-lg text-blue-600 hover:text-blue-800 underline font-bold px-6 py-3 rounded-xl hover:bg-blue-50 transition-all"
-            >
-              Zmień
-            </button>
           </div>
         )}
       </div>

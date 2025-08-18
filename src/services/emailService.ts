@@ -5,7 +5,7 @@ export interface EmailData {
   to: string;
   subject: string;
   template: 'order-confirmation' | 'order-status-update' | 'payment-received' | 'shipping-notification';
-  data: Record<string, any>;
+  data: Record<string, unknown>;
 }
 
 export interface OrderConfirmationData {
@@ -237,7 +237,7 @@ class EmailService {
   }
 
   // Generate email templates
-  generateEmailTemplate(template: EmailData['template'], data: Record<string, any>): string {
+  generateEmailTemplate(template: EmailData['template'], data: Record<string, unknown>): string {
     switch (template) {
       case 'order-confirmation':
         return this.generateOrderConfirmationTemplate(data);

@@ -2,7 +2,7 @@
 
 import React, { useState } from "react";
 import { useConfigurator } from "@/store/configurator";
-import { wordpressService, type WordPressOrder } from "@/services/wordpress";
+import { wordpressService } from "@/services/wordpress";
 
 interface OrderFormData {
   customerName: string;
@@ -67,7 +67,7 @@ export default function OrderForm({ isOpen, onClose, onSubmit, totalPrice }: Ord
     }));
   };
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     
     if (!formData.termsAccepted) {

@@ -117,8 +117,8 @@ class WordPressService {
         throw new Error(`HTTP error! status: ${response.status}`);
       }
 
-      const products = await response.json();
-      return products.map((product: any) => ({
+      const products: any[] = await response.json();
+      return products.map((product) => ({
         id: product.id.toString(),
         name: product.title.rendered,
         price: product.meta?._price || 0,
@@ -142,7 +142,7 @@ class WordPressService {
         throw new Error(`HTTP error! status: ${response.status}`);
       }
 
-      const product = await response.json();
+      const product: any = await response.json();
       return {
         id: product.id.toString(),
         name: product.title.rendered,

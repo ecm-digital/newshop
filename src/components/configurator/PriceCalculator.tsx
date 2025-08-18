@@ -58,21 +58,7 @@ const EXTRA_COSTS: Record<string, number> = {
 };
 
 export default function PriceCalculator() {
-  let configurator;
-  
-  try {
-    configurator = useConfigurator();
-  } catch (error) {
-    console.error('Error accessing configurator store:', error);
-    return (
-      <div className="bg-white rounded-2xl she-shadow-lg p-6">
-        <h3 className="text-lg font-semibold text-she-dark mb-4">Kalkulator ceny</h3>
-        <p className="text-she-primary text-center py-8">
-          Błąd podczas ładowania konfiguratora
-        </p>
-      </div>
-    );
-  }
+  const configurator = useConfigurator();
   
   // Destructure with safety checks
   const selectedProduct = configurator?.selectedProduct;

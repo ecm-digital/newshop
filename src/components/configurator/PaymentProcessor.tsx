@@ -37,7 +37,7 @@ export default function PaymentProcessor({
       const paymentId = `PAY-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`;
       
       onSuccess(paymentId);
-    } catch (error) {
+    } catch (_error) {
       onFailure('Błąd podczas przetwarzania płatności');
     } finally {
       setIsProcessing(false);
@@ -69,7 +69,7 @@ export default function PaymentProcessor({
       
       const paymentId = `PAYPAL-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`;
       onSuccess(paymentId);
-    } catch (error) {
+    } catch (_error) {
       onFailure('Błąd podczas płatności PayPal');
     } finally {
       setIsProcessing(false);
